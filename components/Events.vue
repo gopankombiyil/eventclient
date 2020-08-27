@@ -10,8 +10,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="event in events">
-          <td class="border px-4 py-2">{{ event.Title }}</td>
+        <tr v-for="(event,index) in events">
+          <td class="border px-4 py-2 hover:bg-blue-200 cursor-pointer"><a :href="'/event/' + event.Title.replace(/\s+/g, '-').toLowerCase()">{{ event.Title }}</a></td>
           <td class="border px-4 py-2">{{ event.Location.City}}, {{ event.Location.State}}, {{ event.Location.Country}}  </td>
           <td class="border px-4 py-2">{{ $moment(event.Time).format('DD/MM/YYYY') }}</td>
         </tr>
@@ -52,7 +52,10 @@ export default {
   },
 
   methods: {
-
+      openEvent(title) {
+        return redirect('/event/' + title)
+        console.log(title);
+      }
   }
 }
 </script>
