@@ -14,13 +14,29 @@
       </tbody>
     </table>
 
-    <div class="text-xl text-blue-600">Available Seats</div>
+    <div class="text-xl text-blue-600" v-if="eventitem.AvailableSeats">Available Seats</div>
 
     <div class="flex flex-row">
       <div class="av" v-for="seat in eventitem.AvailableSeats">
         {{seat.id}}
       </div>
     </div>
+
+    <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
+             data-projection="EPSG:4326" style="height: 400px">
+      <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
+
+      <vl-layer-tile id="osm">
+          <vl-source-osm></vl-source-osm>
+      </vl-layer-tile>
+      <vl-feature>
+         <vl-geom-point :coordinates="eventPosition"></vl-geom-point>
+         <vl-style-box>
+              <vl-style-icon src="/media/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+         </vl-style-box>
+     </vl-feature>
+
+    </vl-map>
 
     <div class=""><a href="/">Back</a></div>
   </div>
@@ -38,8 +54,16 @@ export default {
 
 
   data: () => ({
-
+    zoom: 7.3,
+    center: [151.35170, -27.93865],
+    rotation: 0,
+    eventPosition: [152.72244,-27.93563],
+    latlong:[
+      {city:'Gold Coast', cord: [153.398158, -28.002449]},
+      {city:'Brisbane', cord:[153.023366,-27.453786]},
+      {city:'Cairns', cord:[145.734641,-16.881256]} ]
   }),
+
 
   computed: {
     ...mapGetters({

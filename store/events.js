@@ -28,8 +28,22 @@ export const mutations = {
 
 }
 export const actions = {
-  async fetchEvents ({ commit }) {
-    const events = await this.$axios.$get('http://localhost:8000/api/events')
+  async fetchEvents ({ commit }, formData) {
+    let url = 'http://localhost:8000/api/events'
+    if(formData){
+      if(formData.keyword) {
+        url += '?keyword=' + formData.keyword
+      }
+
+      if(formData.city) {
+        url += '?city=' + formData.city
+      }
+
+      if(formData.date) {
+        url += '?date=' + formData.date
+      }
+    }
+    const events = await this.$axios.$get(url)
     commit('SET_EVENTS', events)
   },
 

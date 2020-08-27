@@ -1,6 +1,28 @@
 <template>
   <div class="container mx-auto px-8 py-4">
-    <div class="text-3xl text-blue-700">Events</div>
+    <div class="text-3xl text-blue-700 pb-8">Events</div>
+    <div class=""></div>
+
+    <div class="flex mb-12 bg-gray-300 p-2 rounded-md">
+      <div class="w-2/5 py-4">
+          <label for="given_name">Keyword</label>
+          <input name="keyword" type="text" class="p-1 border-solid border-2 border-gray-200" v-model="keyword"/>
+      </div>
+      <div class="w-1/5 py-4">
+          <label for="given_name">City</label>
+          <input name="keyword" type="text" class="p-1 border-solid border-2 border-gray-200" v-model="city"/>
+      </div>
+      <div class="w-1/5 py-4">
+          <label for="given_name">Date</label>
+          <input name="keyword" type="text" class="p-1 border-solid border-2 border-gray-200" v-model="date"/>
+      </div>
+      <div class="w-1/5 py-4 text-right">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm" @click="applyFilter()">
+          Filter
+        </button>
+      </div>
+
+    </div>
     <table class="table-auto m-4">
       <thead>
         <tr>
@@ -32,7 +54,9 @@ export default {
 
 
   data: () => ({
-
+    keyword: null,
+    date: null,
+    city: null
   }),
 
   computed: {
@@ -52,9 +76,17 @@ export default {
   },
 
   methods: {
-      openEvent(title) {
-        return redirect('/event/' + title)
-        console.log(title);
+      async applyFilter() {
+        let formData = {
+          keyword: this.keyword,
+          date: this.date,
+          city: this.city
+        }
+        try {
+          let res = await this.$store.dispatch("events/fetchEvents", formData);
+        } catch (error) {
+          console.log(error)
+        }
       }
   }
 }

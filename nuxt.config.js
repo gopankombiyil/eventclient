@@ -35,6 +35,10 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    {
+        src: '@/plugins/vuelayers.js',
+        ssr: false
+    }
   ],
   /*
   ** Auto import components
@@ -56,6 +60,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '~/shared/vueLayers',
   ],
   /*
   ** Axios module configuration
